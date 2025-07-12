@@ -1,15 +1,19 @@
+import os
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    # Required environment variables
     anthropic_api_key: str
+    
+    # Model settings
     model_name: str = "claude-3-5-sonnet-20241022"
     max_tokens: int = 4096
     temperature: float = 0.7
     
-    # API settings
+    # API settings - Railway automatically sets PORT
     api_host: str = "0.0.0.0"
-    api_port: int = 8000
+    api_port: int = int(os.getenv("PORT", 8000))  # Railway sets PORT, fallback to 8000 for local
     
     class Config:
         env_file = None  # Don't look for .env file

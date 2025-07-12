@@ -55,7 +55,41 @@ Available commands:
 
 ## Deployment
 
-The application is configured for easy deployment on Railway. Environment variables will be automatically picked up from the Railway environment.
+### Railway Deployment
+
+1. **Required Environment Variables:**
+   - `ANTHROPIC_API_KEY` - Your Anthropic API key
+
+2. **Optional Environment Variables:**
+   - `MODEL_NAME` - Claude model (default: claude-3-5-sonnet-20241022)
+   - `MAX_TOKENS` - Response limit (default: 4096)
+   - `TEMPERATURE` - Response creativity (default: 0.7)
+
+3. **Railway Configuration:**
+   - PORT is automatically set by Railway
+   - Logs are stored in the `/logs` directory
+   - Health check available at `/health`
+
+### Logging
+
+The application creates structured JSON logs for all conversations:
+
+- **Format**: JSONL (JSON Lines) for easy parsing
+- **Location**: `logs/conversations_YYYY-MM-DD.jsonl`
+- **Daily Rotation**: New file each day
+- **Content**: User messages, assistant responses, tool usage, errors
+
+**View logs:**
+```bash
+poetry run python view_logs.py                    # Today's logs
+poetry run python view_logs.py logs/file.jsonl    # Specific file
+```
+
+**Log entry types:**
+- `conversation` - Complete conversation (non-streaming)
+- `user_message` / `assistant_response` - Streaming conversations
+- `tool_usage` - Future tool usage tracking
+- `error` - Error logging with context
 
 ## Development
 
