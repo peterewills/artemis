@@ -53,9 +53,67 @@ Available commands:
 - `GET /health` - Health check
 - `POST /api/chat` - Chat with Artemis (supports streaming)
 
+## Live API
+
+Artemis is deployed on Railway and accessible at: https://artemis-production-9690.up.railway.app
+
+### Example API Calls
+
+#### Health Check
+```bash
+curl https://artemis-production-9690.up.railway.app/health
+```
+
+#### Chat (Non-streaming)
+```bash
+curl -X POST https://artemis-production-9690.up.railway.app/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "Tell me about Peter Wills"}
+    ],
+    "stream": false
+  }'
+```
+
+#### Chat (Streaming)
+```bash
+curl -X POST https://artemis-production-9690.up.railway.app/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "What are Peter'"'"'s technical skills?"}
+    ],
+    "stream": true
+  }'
+```
+
+#### Chat with Calculator Tool
+```bash
+curl -X POST https://artemis-production-9690.up.railway.app/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "Can you calculate the square root of 256 for me?"}
+    ],
+    "stream": true
+  }'
+```
+
 ## Deployment
 
 ### Railway Deployment
+
+Artemis is deployed on Railway, a modern platform for deploying web applications. Railway automatically builds and deploys the application from the GitHub repository.
+
+#### How It Works
+
+1. **Automatic Builds**: Railway detects the Python/Poetry project and uses Nixpacks to build the application
+2. **GitHub Integration**: Pushes to the main branch trigger automatic deployments
+3. **Environment Management**: Railway securely manages environment variables
+4. **Health Monitoring**: Railway uses the `/health` endpoint to monitor application status
+
+#### Configuration
 
 1. **Required Environment Variables:**
    - `ANTHROPIC_API_KEY` - Your Anthropic API key
@@ -65,10 +123,25 @@ Available commands:
    - `MAX_TOKENS` - Response limit (default: 4096)
    - `TEMPERATURE` - Response creativity (default: 0.7)
 
-3. **Railway Configuration:**
+3. **Railway Configuration (railway.json):**
+   ```json
+   {
+     "$schema": "https://railway.app/railway.schema.json",
+     "build": {
+       "builder": "NIXPACKS"
+     },
+     "deploy": {
+       "startCommand": "python run.py",
+       "healthcheckPath": "/health"
+     }
+   }
+   ```
+
+4. **Automatic Features:**
    - PORT is automatically set by Railway
-   - Logs are stored in the `/logs` directory
-   - Health check available at `/health`
+   - HTTPS is provided by default
+   - Logs are available in the Railway dashboard
+   - Automatic restarts on crashes
 
 ### Logging
 
