@@ -1,3 +1,2 @@
-- think about logging and chat history (history only needs to persist within a session)
 - test deploy with railway
 - Build simple react frontend

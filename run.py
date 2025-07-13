@@ -6,5 +6,5 @@ if __name__ == "__main__":
         "artemis.api.main:app",
         host=settings.api_host,
         port=settings.api_port,
-        reload=True
+        reload=True,
     )

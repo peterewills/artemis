@@ -10,12 +10,12 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     messages: List[ChatMessage]
     stream: bool = True
-    
-    
+
+
 class ChatResponse(BaseModel):
     response: str
-    
-    
+
+
 class StreamChunk(BaseModel):
     type: str  # "token", "tool_use", "error"
     content: str

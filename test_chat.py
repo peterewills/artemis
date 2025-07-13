@@ -9,24 +9,19 @@ import sys
 async def test_streaming():
     """Test the streaming chat endpoint."""
     url = "http://localhost:8000/api/chat"
-    
-    messages = [
-        {"role": "user", "content": "Tell me about Peter Wills"}
-    ]
-    
-    payload = {
-        "messages": messages,
-        "stream": True
-    }
-    
+
+    messages = [{"role": "user", "content": "Tell me about Peter Wills"}]
+
+    payload = {"messages": messages, "stream": True}
+
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=payload) as response:
             print("Streaming response:")
             print("-" * 50)
-            
+
             async for line in response.content:
                 if line:
-                    decoded = line.decode('utf-8').strip()
+                    decoded = line.decode("utf-8").strip()
                     if decoded.startswith("data:"):
                         data = decoded[5:].strip()
                         if data:
@@ -45,16 +40,11 @@ async def test_streaming():
 async def test_non_streaming():
     """Test the non-streaming chat endpoint."""
     url = "http://localhost:8000/api/chat"
-    
-    messages = [
-        {"role": "user", "content": "What kind of work does Peter do?"}
-    ]
-    
-    payload = {
-        "messages": messages,
-        "stream": False
-    }
-    
+
+    messages = [{"role": "user", "content": "What kind of work does Peter do?"}]
+
+    payload = {"messages": messages, "stream": False}
+
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=payload) as response:
             result = await response.json()
@@ -65,7 +55,7 @@ async def test_non_streaming():
 
 async def main():
     print("Testing Artemis Chatbot API...")
-    
+
     # Test health endpoint first
     async with aiohttp.ClientSession() as session:
         async with session.get("http://localhost:8000/health") as response:
@@ -73,7 +63,7 @@ async def main():
                 print("Server is not running. Start it with: poetry run python run.py")
                 sys.exit(1)
             print("Server is healthy!")
-    
+
     # Run tests
     await test_streaming()
     print("\n" + "=" * 50 + "\n")
