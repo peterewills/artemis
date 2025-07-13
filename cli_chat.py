@@ -57,6 +57,7 @@ class CLIChatInterface:
 
             # Save history on exit
             import atexit
+
             atexit.register(readline.write_history_file, self.history_file)
 
         except ImportError:
@@ -164,9 +165,13 @@ Type your query and press Enter to begin.
 
                 # Handle commands
                 if user_input.lower() in ["exit", "quit"]:
-                    print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+                    print(
+                        "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+                    )
                     print("Thank you for using ARTEMIS. Goodbye!")
-                    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+                    print(
+                        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    )
                     break
                 elif user_input.lower() == "clear":
                     self.clear_history()
@@ -186,7 +191,9 @@ Type your query and press Enter to begin.
                 await self.get_response(user_input, stream=streaming_mode)
 
             except KeyboardInterrupt:
-                print("\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+                print(
+                    "\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+                )
                 print("Thank you for using ARTEMIS. Goodbye!")
                 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
                 break

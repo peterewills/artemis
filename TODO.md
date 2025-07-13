@@ -1,4 +1,11 @@
-- Build simple react frontend
+- Incorporate more info into resume tool
+  - Add detailed paragraphs on each workplace
+  - add details on academic history
+- Add personal info about peter
+- Add info about Artemis
+  - ASCII diagram of the architecture
+  - A "why build this" answer
+- Add example queries to prompt in react app
 - Implement persistent logging with Cloudflare R2
   - Current logs are written to ephemeral filesystem on Railway
   - Need to store conversation logs in Cloudflare R2 for persistence

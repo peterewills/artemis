@@ -75,7 +75,7 @@ class ResearchDeepDive:
                 "metrics-for-graph-comparison": "metrics-for-graph-comparison-summary.md",
                 "performance-of-test-supermartingale": "performance-of-test-supermartingale-summary.md",
             }
-            
+
             for paper_key, filename in summary_files.items():
                 filepath = os.path.join(self.research_dir, filename)
                 if os.path.exists(filepath):
@@ -184,7 +184,9 @@ class ResearchDeepDive:
                     return f"Paper '{paper_name}' not found. Available papers: {', '.join(self.summaries.keys())}"
             else:
                 # Include all summaries
-                context_parts.append("Here are summaries of the available research papers:\n")
+                context_parts.append(
+                    "Here are summaries of the available research papers:\n"
+                )
                 for key, summary in self.summaries.items():
                     context_parts.append(f"\n{summary}\n")
                     context_parts.append("-" * 80)
@@ -203,14 +205,14 @@ class ResearchDeepDive:
                     "and Metrics for Graph Comparison) as they represent his primary research focus and contributions."
                 )
             )
-            
+
             human_message = HumanMessage(
                 content=f"Based on the following research paper summaries, please answer this question: {query}\n\n{full_context}"
             )
 
             # Get response from Claude
             response = self.llm.invoke([system_message, human_message])
-            
+
             return response.content
 
         except Exception as e:
@@ -221,20 +223,20 @@ class ResearchDeepDive:
     def list_papers(self) -> str:
         """List all available research papers."""
         paper_list = []
-        
+
         if self.summaries:
             paper_list.append("Papers with summaries available:")
             for name in self.summaries.keys():
                 paper_list.append(f"- {name}")
-        
+
         if self.papers:
             paper_list.append("\nFull PDFs loaded:")
             for name, info in self.papers.items():
                 paper_list.append(f"- {name} ({info['pages']} pages)")
-        
+
         if not paper_list:
             return "No research papers or summaries loaded"
-            
+
         return "\n".join(paper_list)
 
     def get_tool(self) -> Tool:

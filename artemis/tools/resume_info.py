@@ -195,14 +195,25 @@ Return ONLY valid JSON, no markdown formatting, no code blocks, no additional te
         """
         try:
             # Check if this is a research-related query
-            research_keywords = ['research', 'papers', 'publications',
-                               'graph', 'network', 'blockmodel', 'supermartingale', 'droplet', 'soliton']
+            research_keywords = [
+                "research",
+                "papers",
+                "publications",
+                "graph",
+                "network",
+                "blockmodel",
+                "supermartingale",
+                "droplet",
+                "soliton",
+            ]
             query_lower = query.lower()
 
             if any(keyword in query_lower for keyword in research_keywords):
-                return ("This query appears to be about research. Please use the research tool "
-                       "for questions about Peter's research papers and academic work. The resume tool "
-                       "is for professional experience, education, and skills information.")
+                return (
+                    "This query appears to be about research. Please use the research tool "
+                    "for questions about Peter's research papers and academic work. The resume tool "
+                    "is for professional experience, education, and skills information."
+                )
 
             if not self.resume_data or "error" in self.resume_data:
                 return "Error: Resume data not available"
