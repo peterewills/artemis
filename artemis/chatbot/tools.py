@@ -1,6 +1,8 @@
 from typing import List
 from langchain.tools import Tool
 from artemis.tools.calculator import calculator
+from artemis.tools.resume_info import resume_info
+from artemis.tools.research_deepdive import research_deepdive
 
 
 def get_tools() -> List[Tool]:
@@ -8,13 +10,12 @@ def get_tools() -> List[Tool]:
     tools = []
 
     # Add calculator tool for testing
-    tools.append(calculator.get_tool())
+    # tools.append(calculator.get_tool())
 
-    # Example of how to add a tool later:
-    # tools.append(Tool(
-    #     name="get_resume_details",
-    #     description="Get specific details from Peter's resume",
-    #     func=get_resume_details
-    # ))
+    # Add resume info tool
+    tools.append(resume_info.get_tool())
+
+    # Add research deep dive tool
+    tools.append(research_deepdive.get_tool())
 
     return tools

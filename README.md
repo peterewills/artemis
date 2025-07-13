@@ -47,6 +47,35 @@ Available commands:
 - `history` - Show conversation history
 - `stream` - Toggle streaming mode on/off
 
+## Running Locally
+
+### CLI Mode
+To run Artemis locally in CLI mode for interactive conversations:
+
+1. Make sure you have the environment variable set:
+```bash
+export ANTHROPIC_API_KEY="your-api-key-here"
+```
+
+2. Run the CLI interface:
+```bash
+poetry run python cli_chat.py
+```
+
+This will start an interactive session where you can chat with Artemis directly in your terminal. The CLI mode supports:
+- Real-time streaming responses
+- Conversation history
+- All of Artemis's tools (resume info, research papers, etc.)
+- Commands to manage the session (see available commands above)
+
+### API Mode
+To run the API server locally:
+```bash
+poetry run python run.py
+```
+
+The API will be available at `http://localhost:8000` with the same endpoints as the deployed version.
+
 ## API Endpoints
 
 - `GET /` - Welcome message

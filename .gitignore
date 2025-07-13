@@ -27,6 +27,7 @@ wheels/
 .pytest_cache/
 .coverage
 htmlcov/
+analysis/
 
 # IDE
 .vscode/
@@ -45,3 +46,7 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# CLI
+.artemis_history
+~/.artemis_history

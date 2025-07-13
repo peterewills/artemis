@@ -1,2 +1,7 @@
-- test deploy with railway
 - Build simple react frontend
+- Implement persistent logging with Cloudflare R2
+  - Current logs are written to ephemeral filesystem on Railway
+  - Need to store conversation logs in Cloudflare R2 for persistence
+  - R2 is S3-compatible and has no egress fees
+  - Use boto3 client to upload logs
+  - Store logs as JSONL files with daily rotation

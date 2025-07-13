@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     anthropic_api_key: str
 
     # Model settings
-    model_name: str = "claude-3-5-sonnet-20241022"
+    model_name: str = "claude-sonnet-4-20250514"
     max_tokens: int = 4096
     temperature: float = 0.7
 

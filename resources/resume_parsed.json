@@ -1,0 +1,160 @@
+{
+  "personalInfo": {
+    "name": "Peter Wills",
+    "title": "Math Ph.D.",
+    "summary": "Math Ph.D. with experience in agentic systems, full-stack machine learning, software engineering, and statistics.",
+    "contact": {
+      "email": "peter@pwills.com",
+      "phone": "(585) 739-3895",
+      "website": "pwills.com",
+      "github": "github.com/peterewills",
+      "linkedin": "linkedin.com/in/peterewills"
+    }
+  },
+  "technicalSkills": {
+    "subjectExpertise": [
+      "artificial intelligence",
+      "machine learning",
+      "statistics",
+      "software engineering",
+      "predictive modeling",
+      "linear algebra",
+      "graph algorithms",
+      "distributed computing"
+    ],
+    "programmingLanguages": [
+      "Python",
+      "SQL",
+      "shell scripting"
+    ],
+    "frameworks": [
+      "LangChain",
+      "Spark"
+    ],
+    "technologies": [
+      "git",
+      "emacs"
+    ],
+    "paradigms": [
+      "object-oriented programming",
+      "functional programming"
+    ]
+  },
+  "professionalExperience": [
+    {
+      "title": "Senior Data Scientist",
+      "company": "EquipmentShare",
+      "duration": "September 2023 to Present",
+      "responsibilities": []
+    },
+    {
+      "title": "Senior Machine Learning Engineer",
+      "company": "Abnormal Security",
+      "duration": "April 2022 to April 2023",
+      "responsibilities": [
+        "Product owner of internal email attack detection product; managed roadmapping, architecture, and ML strategy",
+        "Helped shepherd through efficiency improvements that reduced overall message processing costs by 13%",
+        "Shipped decision rules that reduced the internal-attack false-negative rate (missed-attack rate) by >60%"
+      ]
+    },
+    {
+      "title": "Senior Data Scientist",
+      "company": "Stitch Fix",
+      "duration": "May 2019 to March 2022",
+      "responsibilities": [
+        "Build & maintain a canonical business forecast engine, which backs multiple inventory optimization systems",
+        "Develop backtesting frameworks, dashboards, and continuous alerting systems to monitor forecast fidelity",
+        "Identified low-hanging-fruit improvements to the forecast, resulting in a 60% decrease in (mean absolute) error"
+      ]
+    },
+    {
+      "title": "Data Science Engineer",
+      "company": "FullContact",
+      "duration": "June 2018 to May 2019",
+      "description": "Graph-based identity resolution at scale",
+      "responsibilities": []
+    },
+    {
+      "title": "Data Scientist",
+      "company": "the Trade Desk",
+      "duration": "Oct. 2017 to May 2018",
+      "description": "ML-driven real-time ad targeting",
+      "responsibilities": []
+    },
+    {
+      "title": "Data Scientist",
+      "company": "Entelligent",
+      "duration": "Nov. 2016 to Oct. 2017",
+      "description": "Quantitative trading & portfolio optimization",
+      "responsibilities": []
+    },
+    {
+      "title": "Research Assistant",
+      "company": "University of Colorado",
+      "duration": "May 2014 to May 2018",
+      "description": "Variety of topics, see papers below",
+      "responsibilities": []
+    }
+  ],
+  "education": [
+    {
+      "degree": "Doctor of Philosophy",
+      "field": "Applied Mathematics",
+      "institution": "University of Colorado",
+      "location": "Boulder, CO",
+      "graduationYear": 2018
+    },
+    {
+      "degree": "Bachelor of Science",
+      "field": "Physical Sciences",
+      "institution": "Reed College",
+      "location": "Portland, OR",
+      "graduationYear": 2010
+    }
+  ],
+  "publications": [
+    {
+      "authors": [
+        "P. Wills",
+        "F. Meyer"
+      ],
+      "title": "Metrics for Graph Comparison: A Practitioner's Guide",
+      "journal": "PLoS ONE",
+      "volume": "15",
+      "issue": "2",
+      "pages": "e0228728"
+    },
+    {
+      "authors": [
+        "P. Wills",
+        "F. Meyer"
+      ],
+      "title": "Detecting Topological Changes in Dynamic Community Networks",
+      "conference": "Complex Networks and Their Applications VIII",
+      "pages": "211-222"
+    },
+    {
+      "authors": [
+        "P. Wills",
+        "E. Iacocca",
+        "M. Hoefer"
+      ],
+      "title": "Stochastic Thermal Perturbations of Dissipative Droplet Solitons",
+      "journal": "Phys. Rev. B",
+      "volume": "93",
+      "pages": "144408"
+    },
+    {
+      "authors": [
+        "P. Wills",
+        "E. Knill",
+        "K. Coakley",
+        "Y. Zhang"
+      ],
+      "title": "Performance of Test Supermartingale Confidence Intervals for the Success Probability of Bernoulli Trials",
+      "journal": "Journal of Research of National Institute of Standards and Technology",
+      "volume": "125",
+      "pages": "125003"
+    }
+  ]
+}
