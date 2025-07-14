@@ -164,7 +164,7 @@ class ArtemisAgent:
 
                     tool_name = tool_call["name"]
                     # Only indicate which tool is being used, not the output
-                    yield f"\n🔧 Using {tool_name}...\n"
+                    yield f"\n🔧 Using {tool_name} tool...\n"
 
                     # Find and execute the tool
                     for tool in self.tools:

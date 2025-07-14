@@ -5,7 +5,7 @@
 - Add info about Artemis
   - ASCII diagram of the architecture
   - A "why build this" answer
-- Add example queries to prompt in react app
+  - An explanation of the name
 - Implement persistent logging with Cloudflare R2
   - Current logs are written to ephemeral filesystem on Railway
   - Need to store conversation logs in Cloudflare R2 for persistence
