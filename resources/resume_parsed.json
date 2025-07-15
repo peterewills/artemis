@@ -1,7 +1,7 @@
 {
   "personalInfo": {
-    "name": "Peter Wills",
-    "title": "Math Ph.D.",
+    "name": "Peter Wills, Ph.D.",
+    "title": "Math Ph.D. with experience in agentic systems, full-stack machine learning, software engineering, and statistics",
     "summary": "Math Ph.D. with experience in agentic systems, full-stack machine learning, software engineering, and statistics.",
     "contact": {
       "email": "peter@pwills.com",
@@ -13,19 +13,19 @@
   },
   "technicalSkills": {
     "subjectExpertise": [
-      "artificial intelligence",
+      "artificial intelligence models",
       "machine learning",
       "statistics",
       "software engineering",
       "predictive modeling",
       "linear algebra",
       "graph algorithms",
-      "distributed computing"
+      "distributed computing",
+      "agentic systems development"
     ],
     "programmingLanguages": [
       "Python",
-      "SQL",
-      "shell scripting"
+      "SQL"
     ],
     "frameworks": [
       "LangChain",
@@ -33,7 +33,8 @@
     ],
     "technologies": [
       "git",
-      "emacs"
+      "shell scripting",
+      "emacs config"
     ],
     "paradigms": [
       "object-oriented programming",
@@ -45,7 +46,11 @@
       "title": "Senior Data Scientist",
       "company": "EquipmentShare",
       "duration": "September 2023 to Present",
-      "responsibilities": []
+      "responsibilities": [
+        "Develop agentic systems that connect with various data resources to provide fleet performance summaries to executives",
+        "Moved baseline ML & AI capabilities from 0 to 1 with ML infrastructure, foundational models, and eng integration",
+        "Built generative pipeline to extract, summarize, and cluster technician notes, reducing rate of unparsed notes by 82%"
+      ]
     },
     {
       "title": "Senior Machine Learning Engineer",
@@ -131,7 +136,7 @@
       ],
       "title": "Detecting Topological Changes in Dynamic Community Networks",
       "conference": "Complex Networks and Their Applications VIII",
-      "pages": "211-222"
+      "pages": "211\u2013222"
     },
     {
       "authors": [
