@@ -5,8 +5,6 @@ from typing import Dict, Any, Optional
 from langchain.tools import Tool
 from pydantic import BaseModel, Field
 import pypdf
-from langchain_anthropic import ChatAnthropic
-from langchain.schema import HumanMessage, SystemMessage
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +13,7 @@ class ResumeInfoInput(BaseModel):
     """Input schema for the resume info tool."""
 
     query: str = Field(
-        description="Query about professional history (e.g., 'current position', 'education', 'work experience', 'skills', 'publications')"
+        description="Not used - the tool returns complete resume JSON regardless of input. Kept for compatibility."
     )
 
 
@@ -52,6 +50,10 @@ class ResumeInfo:
     def _parse_resume_with_claude(self, resume_text: str) -> Dict[str, Any]:
         """Use Claude to parse resume text into structured JSON."""
         try:
+            # Import ChatAnthropic only when needed for parsing
+            from langchain_anthropic import ChatAnthropic
+            from langchain.schema import HumanMessage, SystemMessage
+            
             # Initialize Claude
             llm = ChatAnthropic(
                 model="claude-sonnet-4-20250514",
@@ -185,72 +187,24 @@ Return ONLY valid JSON, no markdown formatting, no code blocks, no additional te
 
     def query_resume(self, query: str) -> str:
         """
-        Query information from the structured resume data using Claude.
+        Return the structured resume data as JSON.
 
         Args:
-            query: Question about professional history
+            query: Not used - kept for compatibility
 
         Returns:
-            Claude's answer based on the resume data
+            JSON string of the structured resume data
         """
         try:
-            # Check if this is a research-related query
-            research_keywords = [
-                "research",
-                "papers",
-                "publications",
-                "graph",
-                "network",
-                "blockmodel",
-                "supermartingale",
-                "droplet",
-                "soliton",
-            ]
-            query_lower = query.lower()
-
-            if any(keyword in query_lower for keyword in research_keywords):
-                return (
-                    "This query appears to be about research. Please use the research tool "
-                    "for questions about Peter's research papers and academic work. The resume tool "
-                    "is for professional experience, education, and skills information."
-                )
-
             if not self.resume_data or "error" in self.resume_data:
-                return "Error: Resume data not available"
+                return json.dumps({"error": "Resume data not available"})
 
-            # Initialize Claude for answering queries
-            llm = ChatAnthropic(
-                model="claude-sonnet-4-20250514",
-                temperature=0,
-                max_tokens=4096,
-            )
-
-            # Create the prompt with resume context
-            system_prompt = """You are a helpful assistant answering questions about Peter Wills' professional background based on his resume data.
-Be concise and direct in your answers. Use the structured resume data provided to answer questions accurately.
-If the information requested is not in the resume data, say so clearly."""
-
-            user_prompt = f"""Here is Peter Wills' resume in JSON format:
-
-{json.dumps(self.resume_data, indent=2)}
-
-Question: {query}
-
-Please answer based on the resume data above."""
-
-            # Make the API call
-            messages = [
-                SystemMessage(content=system_prompt),
-                HumanMessage(content=user_prompt),
-            ]
-            response = llm.invoke(messages)
-
-            return response.content
+            return json.dumps(self.resume_data, indent=2)
 
         except Exception as e:
-            error_msg = f"Error querying resume: {str(e)}"
+            error_msg = f"Error accessing resume data: {str(e)}"
             logger.error(error_msg)
-            return error_msg
+            return json.dumps({"error": error_msg})
 
     def get_tool(self) -> Tool:
         """
@@ -262,10 +216,9 @@ Please answer based on the resume data above."""
         return Tool(
             name="resume",
             description=(
-                "Query structured information from Peter's professional resume. "
-                "Ask about current position, work experience, education, skills, contact info, etc. "
-                "NOT for research papers or research content - use research tool instead. "
-                "Example queries: 'current position', 'education background', 'technical skills', 'work experience'"
+                "Get Peter's complete professional resume data as structured JSON. "
+                "Returns all information including personal info, technical skills, work experience, education, and publications. "
+                "The agent can then analyze this data to answer specific questions about Peter's background."
             ),
             func=self.query_resume,
             args_schema=ResumeInfoInput,

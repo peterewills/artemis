@@ -3,6 +3,7 @@ from langchain.tools import Tool
 from artemis.tools.calculator import calculator
 from artemis.tools.resume_info import resume_info
 from artemis.tools.research_deepdive import research_deepdive
+from artemis.tools.personal import personal_info
 
 
 def get_tools() -> List[Tool]:
@@ -17,5 +18,8 @@ def get_tools() -> List[Tool]:
 
     # Add research deep dive tool
     tools.append(research_deepdive.get_tool())
+
+    # Add personal info tool
+    tools.append(personal_info.get_tool())
 
     return tools
