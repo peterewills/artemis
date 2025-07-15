@@ -1,4 +1,5 @@
 import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,6 +24,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "https://www.pwills.com",
+        "https://pwills.com",
         "https://peterewills.github.io",
         "http://localhost:3000",
         "http://localhost:8000",
