@@ -65,3 +65,25 @@ async def root():
 @limiter.limit("60/minute")
 async def health(request: Request):
     return {"status": "healthy"}
+
+
+@app.get("/debug/env")
+async def debug_env():
+    """Debug endpoint to check environment variables."""
+    import os
+    
+    env_status = {
+        "ARTEMIS_API_KEY": "set" if os.getenv("ARTEMIS_API_KEY") else "NOT SET",
+        "ANTHROPIC_API_KEY": "set" if os.getenv("ANTHROPIC_API_KEY") else "NOT SET", 
+        "PORT": os.getenv("PORT", "not set"),
+        "RAILWAY_ENVIRONMENT": os.getenv("RAILWAY_ENVIRONMENT", "not set"),
+    }
+    
+    # Check for any Railway-specific variables
+    railway_vars = {k: "set" for k in os.environ.keys() if k.startswith("RAILWAY_")}
+    
+    return {
+        "env_status": env_status,
+        "railway_vars": railway_vars,
+        "note": "Values are masked for security"
+    }
