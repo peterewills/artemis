@@ -1,17 +1,10 @@
 import os
-import sys
 import uvicorn
+from artemis.config import settings
 
 if __name__ == "__main__":
-    # Require ARTEMIS_API_KEY to be set
-    if not os.getenv("ARTEMIS_API_KEY"):
-        print("❌ Error: ARTEMIS_API_KEY environment variable is required but not set.")
-        print("Please set ARTEMIS_API_KEY before running the application.")
-        sys.exit(1)
-    
-    print(f"🔑 Using ARTEMIS_API_KEY from environment")
-    
-    from artemis.config import settings
+    # Note: ARTEMIS_API_KEY is checked at request time in auth.py
+    print("🚀 Starting Artemis API server...")
 
     uvicorn.run(
         "artemis.api.main:app",
