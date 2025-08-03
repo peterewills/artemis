@@ -1,29 +1,28 @@
 """API authentication utilities."""
 
+import os
 from fastapi import Header, HTTPException, status
 from typing import Optional
-from artemis.config import settings
 
 
 async def verify_api_key(x_api_key: Optional[str] = Header(None)) -> None:
     """
-    Verify the API key if one is configured.
+    Verify the API key.
 
-    If API_KEY is not set in environment, authentication is disabled.
-    If API_KEY is set, requests must include X-API-Key header with matching value.
+    ARTEMIS_API_KEY must be set in environment.
+    Requests must include X-API-Key header with matching value.
     """
-    # If no API key is configured, skip authentication
-    if not settings.api_key:
-        return
+    # Get API key from environment (required to be set in run.py)
+    api_key = os.environ["ARTEMIS_API_KEY"]
 
-    # If API key is configured but not provided in request
+    # If API key is not provided in request
     if not x_api_key:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="X-API-Key header required"
         )
 
     # If API key doesn't match
-    if x_api_key != settings.api_key:
+    if x_api_key != api_key:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Invalid API key"
         )
