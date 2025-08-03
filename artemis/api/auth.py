@@ -9,18 +9,11 @@ async def verify_api_key(x_api_key: Optional[str] = Header(None)) -> None:
     """
     Verify the API key.
 
-    ARTEMIS_API_KEY must be set in environment.
+    ARTEMIS_API_KEY must be set in environment (checked at startup).
     Requests must include X-API-Key header with matching value.
     """
-    # Get API key from environment
-    api_key = os.getenv("ARTEMIS_API_KEY")
-    
-    # If no API key is configured, raise error
-    if not api_key:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Server configuration error: ARTEMIS_API_KEY not set"
-        )
+    # Get API key from environment (guaranteed to exist by run.py)
+    api_key = os.environ["ARTEMIS_API_KEY"]
 
     # If API key is configured but not provided in request
     if not x_api_key:
