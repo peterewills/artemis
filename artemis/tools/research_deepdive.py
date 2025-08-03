@@ -5,8 +5,6 @@ from pydantic import BaseModel, Field
 import pypdf
 import os
 import re
-from langchain_anthropic import ChatAnthropic
-from langchain.schema import HumanMessage, SystemMessage
 
 logger = logging.getLogger(__name__)
 
@@ -36,11 +34,6 @@ class ResearchDeepDive:
         self.summaries = {}
         self._load_papers()
         self._load_summaries()
-        self.llm = ChatAnthropic(
-            model="claude-sonnet-4-20250514",
-            temperature=0,
-            max_tokens=4096,
-        )
 
     def _load_papers(self):
         """Load and extract text from all research PDFs."""
@@ -70,7 +63,7 @@ class ResearchDeepDive:
         """Load the markdown summaries of research papers."""
         try:
             summary_files = {
-                "change-point-detection": "chante-point-detection-summary.md",
+                "change-point-detection": "change-point-detection-summary.md",
                 "droplet-solitons": "droplet-solitons-summary.md",
                 "metrics-for-graph-comparison": "metrics-for-graph-comparison-summary.md",
                 "performance-of-test-supermartingale": "performance-of-test-supermartingale-summary.md",
@@ -157,14 +150,14 @@ class ResearchDeepDive:
 
     def query_research(self, query: str, paper_name: str = "") -> str:
         """
-        Query information from research papers using Claude with summaries as context.
+        Return research paper summaries for the given query.
 
         Args:
-            query: Question about the research
+            query: Question about the research (used for context)
             paper_name: Optional specific paper to search in
 
         Returns:
-            Claude's answer based on the research paper summaries
+            Research paper summaries relevant to the query
         """
         try:
             if not self.summaries:
@@ -172,12 +165,16 @@ class ResearchDeepDive:
 
             # Build context from summaries
             context_parts = []
+            
+            # Add context about the query
+            context_parts.append(f"Query: {query}\n")
+            
             if paper_name:
                 # Find matching paper summary
                 matched = False
                 for key, summary in self.summaries.items():
                     if paper_name.lower() in key.lower():
-                        context_parts.append(f"Paper Summary:\n{summary}")
+                        context_parts.append(f"Paper Summary for '{key}':\n{summary}")
                         matched = True
                         break
                 if not matched:
@@ -185,38 +182,20 @@ class ResearchDeepDive:
             else:
                 # Include all summaries
                 context_parts.append(
-                    "Here are summaries of the available research papers:\n"
+                    "Research Paper Summaries (Peter Wills' Research):\n"
+                )
+                context_parts.append(
+                    "Note: Peter's primary research focus is on graph/network analysis, "
+                    "particularly the two papers on Change Point Detection in a Dynamic Stochastic Blockmodel "
+                    "and Metrics for Graph Comparison.\n"
                 )
                 for key, summary in self.summaries.items():
-                    context_parts.append(f"\n{summary}\n")
-                    context_parts.append("-" * 80)
+                    context_parts.append(f"\n=== {key.replace('-', ' ').title()} ===\n{summary}\n")
 
-            full_context = "\n".join(context_parts)
-
-            # Create the prompt for Claude
-            system_message = SystemMessage(
-                content=(
-                    "You are a helpful assistant analyzing research papers. "
-                    "Use the provided paper summaries to answer questions accurately. "
-                    "Be specific and cite which paper(s) your information comes from. "
-                    "If the information isn't available in the summaries, say so. "
-                    "IMPORTANT: When summarizing Peter's research overall or discussing his body of work, "
-                    "emphasize the two graph/network analysis papers (Change Point Detection in a Dynamic Stochastic Blockmodel "
-                    "and Metrics for Graph Comparison) as they represent his primary research focus and contributions."
-                )
-            )
-
-            human_message = HumanMessage(
-                content=f"Based on the following research paper summaries, please answer this question: {query}\n\n{full_context}"
-            )
-
-            # Get response from Claude
-            response = self.llm.invoke([system_message, human_message])
-
-            return response.content
+            return "\n".join(context_parts)
 
         except Exception as e:
-            error_msg = f"Error querying research with Claude: {str(e)}"
+            error_msg = f"Error loading research summaries: {str(e)}"
             logger.error(error_msg)
             return error_msg
 
@@ -249,10 +228,10 @@ class ResearchDeepDive:
         return Tool(
             name="research",
             description=(
-                "Primary tool for ALL research-related questions about Peter Wills. "
-                "Deep dive into Peter's research papers, publications, and academic work. "
-                "Query specific concepts, methodologies, results, or sections from papers. "
-                "Can search across all papers or focus on a specific one. "
+                "Retrieves research paper summaries about Peter Wills' academic work. "
+                "Returns summaries of Peter's research papers for context injection. "
+                "Can return all paper summaries or focus on a specific paper. "
+                "Use this tool to get research context that will be used to answer questions. "
                 "Example queries: 'tell me about Peter's research', 'graph comparison metrics', "
                 "'what is a droplet soliton', 'research interests', 'publications'"
             ),

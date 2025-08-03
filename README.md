@@ -1,14 +1,17 @@
 # Artemis - Personal AI Chatbot
 
-Artemis is a personal AI assistant that provides information about Peter Wills, powered by Claude 3.5 Sonnet.
+Artemis is a personal AI assistant that provides information about Peter Wills, powered by Claude 4 Sonnet.
+
+📐 [View Architecture Diagram](resources/architecture-diagram.md)
 
 ## Features
 
 - FastAPI backend with streaming support
 - LangChain integration for conversation management
-- Anthropic Claude 3.5 Sonnet for intelligent responses
+- Anthropic Claude 4 Sonnet for intelligent responses
 - Server-Sent Events (SSE) for real-time streaming
 - Extensible tool system for future enhancements
+- Secure deployment using key verification and rate-limiting
 
 ## Setup
 
@@ -43,7 +46,7 @@ poetry run python cli_chat.py
 
 Available commands:
 - `exit` or `quit` - End the conversation
-- `clear` - Clear conversation history  
+- `clear` - Clear conversation history
 - `history` - Show conversation history
 - `stream` - Toggle streaming mode on/off
 
@@ -117,18 +120,6 @@ curl -X POST https://artemis-production-9690.up.railway.app/api/chat \
   }'
 ```
 
-#### Chat with Calculator Tool
-```bash
-curl -X POST https://artemis-production-9690.up.railway.app/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "messages": [
-      {"role": "user", "content": "Can you calculate the square root of 256 for me?"}
-    ],
-    "stream": true
-  }'
-```
-
 ## Deployment
 
 ### Railway Deployment
@@ -148,7 +139,7 @@ Artemis is deployed on Railway, a modern platform for deploying web applications
    - `ANTHROPIC_API_KEY` - Your Anthropic API key
 
 2. **Optional Environment Variables:**
-   - `MODEL_NAME` - Claude model (default: claude-3-5-sonnet-20241022)
+   - `MODEL_NAME` - Claude model (default: claude-sonnet-4-20250514)
    - `MAX_TOKENS` - Response limit (default: 4096)
    - `TEMPERATURE` - Response creativity (default: 0.7)
 

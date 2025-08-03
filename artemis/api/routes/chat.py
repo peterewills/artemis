@@ -2,10 +2,11 @@ import json
 import logging
 from typing import AsyncGenerator
 from datetime import datetime, timezone
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import StreamingResponse
 
 from artemis.api.models import ChatRequest, ChatResponse
+from artemis.api.auth import verify_api_key
 from artemis.chatbot.agent import ArtemisAgent
 from artemis.logging_config import conversation_logger
 
@@ -14,6 +15,9 @@ router = APIRouter()
 
 # Lazy initialization of chatbot
 _chatbot = None
+
+# Rate limiter will be injected from main.py
+limiter = None
 
 
 def get_chatbot():
@@ -78,12 +82,11 @@ async def stream_response(request: ChatRequest) -> AsyncGenerator[str, None]:
         yield f"data: {error_data}\n\n"
 
 
-@router.post("/chat")
-async def chat(request: ChatRequest):
-    """Chat endpoint that supports both streaming and non-streaming responses."""
-    if request.stream:
+async def _chat_handler(chat_request: ChatRequest):
+    """Internal chat handler logic."""
+    if chat_request.stream:
         return StreamingResponse(
-            stream_response(request),
+            stream_response(chat_request),
             media_type="text/event-stream",
             headers={
                 "Cache-Control": "no-cache",
@@ -97,7 +100,7 @@ async def chat(request: ChatRequest):
     else:
         # Non-streaming response
         try:
-            messages = [(msg.role, msg.content) for msg in request.messages]
+            messages = [(msg.role, msg.content) for msg in chat_request.messages]
             chatbot = get_chatbot()
             response = await chatbot.ainvoke(messages)
 
@@ -115,3 +118,10 @@ async def chat(request: ChatRequest):
         except Exception as e:
             logger.error(f"Error in chat endpoint: {str(e)}")
             raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/chat", dependencies=[Depends(verify_api_key)])
+async def chat(request: Request, chat_request: ChatRequest):
+    """Chat endpoint with rate limiting and API key authentication."""
+    # Rate limiting will be applied by decorator when limiter is set
+    return await _chat_handler(chat_request)

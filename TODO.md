@@ -1,7 +1,6 @@
 - Incorporate more info into resume tool
   - Add detailed paragraphs on each workplace
   - add details on academic history
-- Add personal info about peter
 - Add info about Artemis
   - ASCII diagram of the architecture
   - A "why build this" answer
@@ -12,3 +11,6 @@
   - R2 is S3-compatible and has no egress fees
   - Use boto3 client to upload logs
   - Store logs as JSONL files with daily rotation
+
+- make the server emit errors it gets,
+  - e.g. `2025-07-16 08:57:38 - artemis.api.routes.chat - ERROR - Error in stream_response: {'type': 'error', 'error': {'details': None, 'type': 'overloaded_error', 'message': 'Overloaded'}}`

@@ -53,7 +53,7 @@ class ResumeInfo:
             # Import ChatAnthropic only when needed for parsing
             from langchain_anthropic import ChatAnthropic
             from langchain.schema import HumanMessage, SystemMessage
-            
+
             # Initialize Claude
             llm = ChatAnthropic(
                 model="claude-sonnet-4-20250514",
@@ -187,19 +187,38 @@ Return ONLY valid JSON, no markdown formatting, no code blocks, no additional te
 
     def query_resume(self, query: str) -> str:
         """
-        Return the structured resume data as JSON.
+        Return the structured resume data as JSON with projects narrative.
 
         Args:
             query: Not used - kept for compatibility
 
         Returns:
-            JSON string of the structured resume data
+            JSON string of the structured resume data with projects
         """
         try:
             if not self.resume_data or "error" in self.resume_data:
                 return json.dumps({"error": "Resume data not available"})
 
-            return json.dumps(self.resume_data, indent=2)
+            # Create a copy of resume data to avoid modifying the cached version
+            result_data = self.resume_data.copy()
+
+            # Read projects.md file
+            projects_path = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                "resources",
+                "professional",
+                "projects.md",
+            )
+
+            try:
+                with open(projects_path, "r") as f:
+                    projects_content = f.read()
+                result_data["projectNarratives"] = projects_content
+            except Exception as e:
+                logger.warning(f"Could not read projects.md: {str(e)}")
+                result_data["projectNarratives"] = "Projects file not available"
+
+            return json.dumps(result_data, indent=2)
 
         except Exception as e:
             error_msg = f"Error accessing resume data: {str(e)}"
@@ -218,6 +237,7 @@ Return ONLY valid JSON, no markdown formatting, no code blocks, no additional te
             description=(
                 "Get Peter's complete professional resume data as structured JSON. "
                 "Returns all information including personal info, technical skills, work experience, education, and publications. "
+                "Also includes detailed project narratives from Peter's work history with specific accomplishments and impact. "
                 "The agent can then analyze this data to answer specific questions about Peter's background."
             ),
             func=self.query_resume,

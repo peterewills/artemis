@@ -5,6 +5,9 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     # Required environment variables
     anthropic_api_key: str
+    
+    # API Security
+    api_key: str | None = None  # Optional API key for authentication
 
     # Model settings
     model_name: str = "claude-sonnet-4-20250514"
